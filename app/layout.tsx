@@ -4,6 +4,8 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import type React from "react"
+import { SessionProvider } from "next-auth/react"
+import Navbar from "@/components/navbar"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -13,20 +15,18 @@ export const metadata: Metadata = {
     generator: 'v0.dev'
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={cn("min-h-screen bg-background font-sans antialiased", inter.className)}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          {/* 添加居中容器，max-w-6xl 限制最大宽度，mx-auto 水平居中，px-4 添加内边距 */}
-          <div className="max-w-6xl mx-auto px-4 w-full">
-            {children}
-          </div>
-        </ThemeProvider>
+        <SessionProvider>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+            <Navbar />
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
+              {children}
+            </div>
+          </ThemeProvider>
+        </SessionProvider>
       </body>
     </html>
   )

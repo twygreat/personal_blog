@@ -13,13 +13,27 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// 只保留一个User模型定义
 model User {
   id            String    @id @default(cuid())
   name          String?
   email         String    @unique
-  password      String
+  password      String // 保持必填
   role          String    @default("user")
   emailVerified DateTime?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+  contactInfo   String? // 保留扩展字段
+  hobbies       String[]
+  posts         Post[] // 保留文章关联
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  authorId  String // 外键字段
+  author    User     @relation(fields: [authorId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

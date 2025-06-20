@@ -31,36 +31,12 @@ const blogPosts = [
 export default function BlogPage() {
   return (
     <div className="min-h-screen bg-background">
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-14 items-center">
-          <div className="mr-4 hidden md:flex">
-            <Link className="mr-6 flex items-center space-x-2" href="/">
-              <span className="hidden font-bold sm:inline-block">我的博客</span>
-            </Link>
-            <nav className="flex items-center space-x-6 text-sm font-medium">
-              <Link href="#home" className="transition-colors hover:text-foreground/80">
-                首页
-              </Link>
-              <Link href="#articles" className="transition-colors hover:text-foreground/80">
-                文章
-              </Link>
-              <Link href="#about" className="transition-colors hover:text-foreground/80">
-                关于
-              </Link>
-            </nav>
-          </div>
-          <Button variant="outline" className="ml-auto">
-            订阅
-          </Button>
-        </div>
-      </header>
-
       <main className="container px-4 md:px-6 py-12">
         <section id="home" className="py-8 md:py-16">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-                我的技术博客
+                Siri的技术博客
               </h1>
               <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
                 记录日常想法、技术学习和编程心得

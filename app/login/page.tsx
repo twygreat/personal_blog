@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import Link from "next/link";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -60,6 +61,9 @@ export default function LoginPage() {
             />
           </div>
           <Button type="submit" className="w-full">登录</Button>
+          <div className="text-center">
+            <Link href="/register" className="text-blue-600 hover:underline">没有账号？注册</Link>
+          </div>
         </form>
       </div>
     </div>
