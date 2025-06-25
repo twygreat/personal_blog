@@ -1,4 +1,5 @@
-import { auth } from "@/lib/auth"
+import { getServerSession } from "next-auth/next"
+import { authOptions } from "@/lib/auth"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -7,7 +8,7 @@ import { Post } from '@prisma/client'
 import { redirect } from 'next/navigation'
 
 export default async function ProfilePage() {
-  const session = await auth()
+  const session = await getServerSession(authOptions)
   // 未登录用户重定向到登录页
   if (!session?.user || !session.user.email) {
     redirect('/login')

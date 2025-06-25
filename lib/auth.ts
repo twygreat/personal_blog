@@ -1,13 +1,15 @@
-import type { NextAuthOptions } from 'next-auth'
 import type { DefaultSession } from 'next-auth'
 import type { JWT } from 'next-auth/jwt'
 import type { Session } from "next-auth"
-import { type CredentialInput } from "next-auth/providers"
+// 由于找不到 'next-auth/providers' 模块，尝试从 'next-auth/providers/credentials' 导入 CredentialInput
+import { type CredentialInput } from "next-auth/providers/credentials"
 import CredentialsProvider from "next-auth/providers/credentials"
-import type { NextAuthOptions } from 'next-auth/core/types'
-import { NextAuth } from 'next-auth'
+// 尝试从 'next-auth' 导入 NextAuthOptions，因为可能 'next-auth/server' 路径有误
+import type { NextAuthOptions } from 'next-auth'
+// 尝试从 'next-auth' 导入 NextAuth，因为 'next-auth/server' 找不到
+import NextAuth from 'next-auth'
 import { prisma } from '@/lib/prisma';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import type { User } from '@prisma/client';
 
 declare module 'next-auth' {
@@ -62,7 +64,11 @@ export const authOptions: NextAuthOptions = {
             name: user.name
           } : null;
         } catch (error) {
-          console.error('Authentication error:', error);
+          console.error('Authentication error details:', error);
+          if (error instanceof Error) {
+            console.error('Error message:', error.message);
+            console.error('Error stack:', error.stack);
+          }
           return null;
         }
       }
@@ -73,4 +79,7 @@ export const authOptions: NextAuthOptions = {
   },
 }
 
-export const { handlers, auth, signIn, signOut } = NextAuth(authOptions)
+const handler = NextAuth(authOptions)
+export { handler as GET, handler as POST }
+// 尝试从 'next-auth' 导入 auth，因为 'next-auth/server' 找不到
+export { signIn, signOut } from 'next-auth/react'

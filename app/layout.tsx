@@ -1,10 +1,11 @@
 import { ThemeProvider } from "@/components/theme-provider"
+import { ThemeToggle } from "@/components/theme-toggle"
 import { cn } from "@/lib/utils"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import type React from "react"
-import { SessionProvider } from "next-auth/react"
+import { ClientProviders } from "@/components/providers"
 import Navbar from "@/components/navbar"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -19,14 +20,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={cn("min-h-screen bg-background font-sans antialiased", inter.className)}>
-        <SessionProvider>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-            <Navbar />
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
-              {children}
-            </div>
-          </ThemeProvider>
-        </SessionProvider>
+        <ClientProviders>
+          <Navbar />
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
+            {children}
+          </div>
+          <div className="fixed bottom-4 right-4 z-50">
+            <ThemeToggle />
+          </div>
+        </ClientProviders>
       </body>
     </html>
   )

@@ -62,42 +62,46 @@ export default function RegisterPage() {
           {success && (
             <div className="p-3 text-green-700 bg-green-100 rounded-md">{success}</div>
           )}
-          <div className="space-y-2">
+          <div className="space-y-1">
             <Label htmlFor="name">姓名</Label>
             <Input
-              id="name"
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
+            id="name"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            className="border-2 border-gray-500 mt-[-8px]"
+          />
           </div>
-          <div className="space-y-2">
+          <div className="space-y-1">
             <Label htmlFor="email">邮箱</Label>
             <Input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="border-2 border-gray-500 mt-[-8px]"
+          />
           </div>
-          <div className="space-y-2">
+          <div className="space-y-1">
             <Label htmlFor="password">密码</Label>
             <Input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              minLength={6}
-            />
+            id="password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            minLength={6}
+            className="border-2 border-gray-500 mt-[-8px]"
+          />
           </div>
-          <div className="space-y-2">
+          <div className="space-y-1">
             <Label htmlFor="confirmPassword">确认密码</Label>
             <Input
-              id="confirmPassword"
-              type="password"
+            id="confirmPassword"
+            type="password"
+            className="border-2 border-gray-500 mt-[-8px]"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required

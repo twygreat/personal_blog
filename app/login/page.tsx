@@ -19,14 +19,12 @@ export default function LoginPage() {
     const result = await signIn("credentials", {
       email,
       password,
-      redirect: false
+      redirect: true,
+      callbackUrl: "/"
     });
 
     if (result?.error) {
       setError("邮箱或密码不正确");
-    } else {
-      // 登录成功，重定向到主页
-      window.location.href = "/";
     }
   };
 
@@ -40,25 +38,27 @@ export default function LoginPage() {
           {error && (
             <div className="p-3 text-red-700 bg-red-100 rounded-md">{error}</div>
           )}
-          <div className="space-y-2">
+          <div className="space-y-1">
             <Label htmlFor="email">邮箱</Label>
             <Input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="border-2 border-gray-500 mt-[-8px]"
+          />
           </div>
-          <div className="space-y-2">
+          <div className="space-y-1">
             <Label htmlFor="password">密码</Label>
             <Input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+            id="password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            className="border-2 border-gray-500 mt-[-8px]"
+          />
           </div>
           <Button type="submit" className="w-full">登录</Button>
           <div className="text-center">

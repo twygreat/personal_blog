@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma';
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
@@ -32,9 +32,11 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ user: { id: user.id, email: user.email, name: user.name } });
   } catch (error) {
-    return NextResponse.json(
-      { error: "注册失败" },
-      { status: 500 }
-    );
-  }
+      console.error('注册错误详情:', error);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      return NextResponse.json(
+        { error: `注册失败: ${errorMessage}` },
+        { status: 500 }
+      );
+    }
 }

@@ -41,15 +41,11 @@ export default function Navbar() {
           {session?.user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="rounded-full">
-                  <Avatar className="h-8 w-8">
-                    <img src="/placeholder-user.jpg" alt="用户头像" />
-                  </Avatar>
-                </Button>
+                <Button>个人信息</Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem asChild>
-                  <Link href="/profile">个人信息</Link>
+                  <Link href="/profile">查看个人信息</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => signOut()}>退出登录</DropdownMenuItem>
               </DropdownMenuContent>
