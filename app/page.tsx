@@ -2,33 +2,17 @@ import { Button } from "@/components/ui/button"
 import { Github, Mail, Rss, Twitter } from "lucide-react"
 import Link from "next/link"
 import { format } from 'date-fns'
+import { prisma } from '@/lib/prisma'
+import { Card } from '@/components/ui/card'
+import { truncateMarkdown } from '@/lib/utils'
 
-// 博客文章数据
-const blogPosts = [
-  {
-    id: 1,
-    title: "我的第一篇博客文章",
-    excerpt: "这是我使用Next.js和Tailwind CSS创建博客的开始...",
-    date: new Date(2024, 5, 15),
-    category: "技术"
-  },
-  {
-    id: 2,
-    title: "学习React的心得体会",
-    excerpt: "React框架的核心概念和使用技巧分享...",
-    date: new Date(2024, 5, 10),
-    category: "前端"
-  },
-  {
-    id: 3,
-    title: "日常思考：程序员的成长之路",
-    excerpt: "关于技术学习和职业发展的一些思考...",
-    date: new Date(2024, 5, 5),
-    category: "随笔"
-  }
-]
-
-export default function BlogPage() {
+export default async function BlogPage() {
+  // 获取最新文章
+  const latestPosts = await prisma.post.findMany({
+  orderBy: { createdAt: 'desc' },
+  take: 5,
+  include: { author: { select: { name: true } } }
+});
   return (
     <div className="min-h-screen bg-background">
       <main className="container px-4 md:px-6 py-12">
@@ -61,32 +45,45 @@ export default function BlogPage() {
             <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl mb-8 flex items-center">
               最新文章
             </h2>
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {blogPosts.map((post) => (
-                <article key={post.id} className="border rounded-lg p-6 hover:shadow-md transition-shadow">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-xs font-medium bg-muted px-2 py-1 rounded-full">
-                      {post.category}
-                    </span>
-                    <time className="text-xs text-muted-foreground">
-                      {format(post.date, 'yyyy-MM-dd')}
-                    </time>
-                  </div>
-                  <h3 className="text-xl font-bold mb-2 hover:text-primary/80 transition-colors">
-                    <Link href={`/posts/${post.id}`}>
-                      {post.title}
+            <div className="mb-8">
+            {latestPosts.length === 0 ? (
+              <div className="text-center py-12 bg-muted rounded-lg">
+                <p className="text-muted-foreground mb-4">暂无文章发布</p>
+              </div>
+            ) : (
+              <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                {latestPosts.map((post) => (
+                  <Card key={post.id} className="p-6 hover:shadow-md transition-shadow">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-xs font-medium bg-muted px-2 py-1 rounded-full">
+                        {post.author?.name || '未知作者'}
+                      </span>
+                      <time className="text-xs text-muted-foreground">
+                        {post.createdAt ? format(new Date(post.createdAt), 'yyyy-MM-dd') : '日期未知'}
+                      </time>
+                    </div>
+                    <h3 className="text-xl font-bold mb-2 hover:text-primary/80 transition-colors">
+                      <Link href={`/posts/edit/${post.id}`}>
+                        {post.title}
+                      </Link>
+                    </h3>
+                    <p className="text-muted-foreground mb-4">{truncateMarkdown(post.content)}</p>
+                    <Link
+                      href={`/posts/edit/${post.id}`}
+                      className="text-sm font-medium hover:underline"
+                    >
+                      编辑文章 →
                     </Link>
-                  </h3>
-                  <p className="text-muted-foreground mb-4">{post.excerpt}</p>
-                  <Link
-                    href={`/posts/${post.id}`}
-                    className="text-sm font-medium hover:underline"
-                  >
-                    阅读更多 →
-                  </Link>
-                </article>
-              ))}
-            </div>
+                  </Card>
+                ))}
+              </div>
+            )}
+          </div>
+          <div className="text-center">
+            <Button size="lg">
+              <Link href="/posts/edit">创建新文章</Link>
+            </Button>
+          </div>
           </div>
         </section>
 

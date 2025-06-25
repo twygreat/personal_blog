@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card"
 import { prisma } from "@/lib/prisma"
 import { Post } from '@prisma/client'
 import { redirect } from 'next/navigation'
+import { truncateMarkdown } from '@/lib/utils'
 
 export default async function ProfilePage() {
   const session = await getServerSession(authOptions)
@@ -52,9 +53,6 @@ export default async function ProfilePage() {
         {posts.length === 0 ? (
           <div className="text-center py-8 bg-muted rounded-lg">
             <p className="text-muted-foreground">您还没有发布任何文章</p>
-            <Button className="mt-4">
-              <Link href="/posts/edit">创建新文章</Link>
-            </Button>
           </div>
         ) : (
           <div className="space-y-4">
@@ -66,6 +64,7 @@ export default async function ProfilePage() {
               {post.createdAt ? new Date(post.createdAt).toLocaleDateString() : '日期未知'}
                   </div>
                 </div>
+                <p className="text-muted-foreground mt-2">{truncateMarkdown(post.content)}</p>
                 <div className="mt-2">
                   <Link href={`/posts/edit/${post.id}`} className="text-primary hover:underline">
                     编辑文章
@@ -75,6 +74,11 @@ export default async function ProfilePage() {
             ))}
           </div>
         )}
+        <div className="mt-6 text-center">
+          <Button size="lg" asChild>
+            <Link href="/posts/edit">创建新文章</Link>
+          </Button>
+        </div>
       </div>
     )
   } catch (error) {
