@@ -63,7 +63,7 @@ export default async function BlogPage() {
                       </time>
                     </div>
                     <h3 className="text-xl font-bold mb-2 hover:text-primary/80 transition-colors">
-                      <Link href={`/posts/edit/${post.id}`}>
+                      <Link href={`/posts/${post.id}`}>
                         {post.title}
                       </Link>
                     </h3>

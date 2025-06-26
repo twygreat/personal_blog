@@ -66,7 +66,7 @@ export default async function ProfilePage() {
                 </div>
                 <p className="text-muted-foreground mt-2">{truncateMarkdown(post.content)}</p>
                 <div className="mt-2">
-                  <Link href={`/posts/edit/${post.id}`} className="text-primary hover:underline">
+                  <Link href={`/posts/${post.id}`} className="text-primary hover:underline">
                     编辑文章
                   </Link>
                 </div>

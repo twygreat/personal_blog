@@ -1,15 +1,15 @@
 module.exports = {
-  apps: [
-    {
-      name: 'next-app',
-      script: 'npm',
-      args: 'start',
-      env: {
-        NODE_ENV: 'production',
-      },
-      env_file: '.env',
-      watch: false,
-      max_memory_restart: '1G',
+  apps: [{
+    name: "blog",
+    script: "npm",
+    args: "start",
+    instances: "max",
+    exec_mode: "cluster",
+    env: {
+      PORT: 1999,
+      NODE_ENV: "production"
     },
-  ],
-};
+    watch: false,
+    max_memory_restart: "1G"
+  }]
+}
